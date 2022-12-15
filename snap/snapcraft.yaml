@@ -41,6 +41,7 @@ apps:
 parts:
   pkg-exporter:
     plugin: python
+    #TODO: Point to the upstream repo after the PR(https://github.com/margau/pkg-exporter/pull/20) is merged.
     source: https://github.com/sudeephb/pkg-exporter.git
     stage-packages:
       - python3-apt
