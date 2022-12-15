@@ -26,7 +26,10 @@ plugs:
       - /var/lib/snapd/hostfs/var/lib/dpkg/status
       - /var/lib/snapd/hostfs/var/lib/apt/extended_states
       - /var/lib/snapd/hostfs/var/cache/apt/srcpkgcache.bin
-      - /var/lib/snapd/hostfs/etc/apt
+      - /var/lib/snapd/hostfs/etc/apt/apt.conf.d
+      - /var/lib/snapd/hostfs/etc/apt/sources.list
+      - /var/lib/snapd/hostfs/etc/apt/sources.list.d
+      - /var/lib/snapd/hostfs/etc/apt/preferences.d
 
 apps:
   apt-exporter:
