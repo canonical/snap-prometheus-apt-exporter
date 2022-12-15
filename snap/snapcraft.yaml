@@ -33,7 +33,7 @@ plugs:
 
 apps:
   apt-exporter:
-    command: 'bin/set_apt_cache_env.sh'
+    command: 'bin/apt-exporter-wrapper.sh'
     daemon: simple
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/site-packages:$SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
@@ -49,8 +49,8 @@ parts:
     stage-packages:
       - python3-apt
       - dpkg
-  set-apt-cache-config:
+  apt-exporter-wrapper:
     plugin: dump
     source: bin
     organize:
-      set_apt_cache_env.sh: bin/set_apt_cache_env.sh
+      apt-exporter-wrapper.sh: bin/apt-exporter-wrapper.sh
