@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$SNAP/port-management-script.sh"
+. "$SNAP/bin/port-management-script.sh"
 
 handle_port_config()
 {
