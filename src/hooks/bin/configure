@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. "$SNAP/bin/port-management-script.sh"
+
+handle_port_config()
+{
+        http_port="$(http_port)"
+
+        # Validate HTTP port
+        if ! expr "$http_port" : '^[0-9]\+$' > /dev/null; then
+                echo "\"$http_port\" is not a valid HTTP port" >&2
+                return 1
+        fi
+
+        set_http_port "$http_port"
+
+        snapctl restart prometheus-apt-exporter
+}
+handle_port_config

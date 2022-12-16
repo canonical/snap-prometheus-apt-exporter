@@ -1,4 +1,4 @@
-name: prometheus-pkg-exporter
+name: prometheus-apt-exporter
 version: '1.0.0'
 grade: stable
 summary: Export textfile-based apt-repositories metrics from parsed log data
@@ -10,12 +10,18 @@ base: core20
 architectures:
   - build-on: amd64
 
+layout:
+  /usr/share/dpkg/cputable:
+    bind-file: $SNAP_DATA/usr/share/dpkg/cputable
+  /usr/share/dpkg/tupletable:
+    bind-file: $SNAP_DATA/usr/share/dpkg/tupletable
+  /etc/apt:
+    bind: $SNAP_DATA/etc/apt
+
 plugs:
-  apt-exporter-files:
+  host-apt-contents:
     interface: system-files
     read:
-      - /usr/share/dpkg/cputable
-      - /usr/share/dpkg/tupletable
       - /var/lib/snapd/hostfs/var/lib/apt/lists
       - /var/lib/snapd/hostfs/var/lib/dpkg/status
       - /var/lib/snapd/hostfs/var/lib/apt/extended_states
@@ -27,12 +33,12 @@ plugs:
 
 apps:
   apt-exporter:
-    command: 'bin/pkg-exporter --rootdir /var/lib/snapd/hostfs/ -d'
+    command: 'bin/apt-exporter-wrapper.sh'
     daemon: simple
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/site-packages:$SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
     plugs:
-      - apt-exporter-files
+      - host-apt-contents
       - network-bind
 
 parts:
@@ -42,3 +48,17 @@ parts:
     source: https://github.com/sudeephb/pkg-exporter.git
     stage-packages:
       - python3-apt
+      - dpkg
+  apt-exporter-wrapper:
+    plugin: dump
+    source: bin
+    organize:
+      apt-exporter-wrapper.sh: bin/apt-exporter-wrapper.sh
+  hooks:
+    plugin: dump
+    source: src/hooks/
+    organize:
+      bin/: snap/hooks/
+  scripts:
+    plugin: dump
+    source: src/utilities
