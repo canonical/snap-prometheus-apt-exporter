@@ -54,3 +54,11 @@ parts:
     source: bin
     organize:
       apt-exporter-wrapper.sh: bin/apt-exporter-wrapper.sh
+  hooks:
+    plugin: dump
+    source: src/hooks/
+    organize:
+      bin/: snap/hooks/
+  scripts:
+    plugin: dump
+    source: src/utilities

@@ -11,4 +11,9 @@ Dir::Cache::${SRC_CACHE} "${SNAP_DATA}/var/cache/apt/${SRC_CACHE}.bin";
 Dir::Cache::${CACHE} "${SNAP_DATA}/var/cache/apt/${CACHE}.bin";
 EOF
 
-${SNAP}/bin/pkg-exporter --rootdir /var/lib/snapd/hostfs/ -d -t 1
+. "$SNAP/bin/port-management-script.sh"
+
+HTTP_PORT="$(http_port)"
+export HTTP_PORT
+
+${SNAP}/bin/pkg-exporter --port ${HTTP_PORT} --rootdir /var/lib/snapd/hostfs/ -d -t 1
